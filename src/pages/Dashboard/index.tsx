@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
                     "Ocorreu um erro ao fazer o cancelamento, tente novamente mais tarde.",
             });
         }
-    }, [appointmentInDate, token])
+    }, [appointmentInDate, token, addToast])
 
     const handleConfirm = useCallback(async () => {
         try {
@@ -107,7 +107,7 @@ const Dashboard: React.FC = () => {
                     "Ocorreu um erro ao fazer a confirmação, tente novamente mais tarde.",
             });
         }
-    }, [appointmentInDate, token])
+    }, [appointmentInDate, token, addToast])
 
     useEffect(() => {
         async function getAppointmentByDate() {
