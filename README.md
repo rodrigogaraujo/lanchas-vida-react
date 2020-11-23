@@ -1,9 +1,9 @@
-# web_gobarber
-Front end of the GoBarber application developed in the Rocketseat Bootcamp course
+# LanchasVida
+Front end of the LanchasVida application
 
 # Install
 - Visual Studio
-- git clone https://github.com/rodrigogaraujo/web_gobarber.git
+- git clone https://github.com/rodrigogaraujo/lanchas-vida-react.git
 - yarn //install all dependencies
 
 # Libraries & Features
@@ -11,10 +11,6 @@ Front end of the GoBarber application developed in the Rocketseat Bootcamp cours
 - Styled components
 - Polished
 - React icons
-
-# Preview
-<img src="https://github.com/rodrigogaraujo/web_gobarber/blob/master/gobarber.png" width="450"/>
-<img src="https://github.com/rodrigogaraujo/web_gobarber/blob/master/signuptwo.png" width="450"/>
 
 # Contact
 rodrigoaraujo990@gmail.com

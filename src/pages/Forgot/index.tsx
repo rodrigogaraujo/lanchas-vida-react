@@ -57,7 +57,7 @@ const Forgot: React.FC = () => {
     return (
         <Container>
             <Content>
-                <img src={logo} alt="GoBarber" title="GoBarber" />
+                <img src={logo} alt="LanchasVida" title="LanchasVida" />
                 <Form onSubmit={handleSubmit} ref={formRef}>
                     <h1>Recuperar senha</h1>
 
