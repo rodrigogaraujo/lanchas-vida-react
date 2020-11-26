@@ -171,7 +171,7 @@ const Dashboard: React.FC = () => {
                             <div>
                                 {
                                     appointmentInDate.user && appointmentInDate.user.avatar && (
-                                        <img src={`http://192.168.1.108:3333/files/${appointmentInDate.user.avatar}`}
+                                        <img src={`https://nodedeploy.lanchasvida.net/files/${appointmentInDate.user.avatar}`}
                                          alt={appointmentInDate.user ? appointmentInDate.user.name : ''} />
                                     )
                                 }
@@ -216,7 +216,7 @@ const Dashboard: React.FC = () => {
                                     <span><FiClock /> {format(new Date(appointment.date), 'dd/MM/yyyy')} - {appointment.time}</span>
                                     <div>
                                         {appointment.user && appointment.user.avatar && (
-                                            <img src={`http://192.168.1.108:3333/files/${appointment.user.avatar}`}
+                                            <img src={`https://nodedeploy.lanchasvida.net/${appointment.user.avatar}`}
                                             alt={appointment.user.name} />
                                         )}
                                         <strong>{appointment.user ? appointment.user.name : ''}</strong>
