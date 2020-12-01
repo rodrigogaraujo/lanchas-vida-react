@@ -21,7 +21,7 @@ import logoImg from '../../assets/logo.png'
 import api from '../../services/api';
 
 import { useAuth } from "../../hooks/Auth";
-import { useToast } from "../../hooks/Toast";
+// import { useToast } from "../../hooks/Toast";
 import icons from "../../utils/icons";
 
 const columns = [
@@ -77,7 +77,7 @@ const CreateItem: React.FC = () => {
         }
         getItens();
         // setLoading(false);
-    }, [api, token]);
+    }, [token]);
 
     return (
         <Container>
