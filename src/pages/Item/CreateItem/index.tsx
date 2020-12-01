@@ -95,111 +95,114 @@ const CreateItem: React.FC = () => {
     const handleSubmit = useCallback(
         async (data: ICreateItem) => {
             try {
-                if (!cover || !imageOne) {
-                    addToast({
-                        type: "error",
-                        title: "Selecione uma foto para cover e uma para detalhes",
-                        description:
-                            "Ocorreu um erro, pois o cover é obrigatório",
-                    });
-                    return;
-                }
-                const schema = Yup.object().shape({
-                    description: Yup.string()
-                        .required("Digite a descrição"),
-                    price: Yup.number().required("Digite um preço"),
-                });
-                await schema.validate(data, {
-                    abortEarly: false,
-                });
-                setLoading(true);
-                
-                const response = 
-                    await api.post('/motorboat', { ...data }, {
-                        headers: {
-                            authorization: `Bearer ${token}`
-                        }
-                    });
-                if (response.data) {
-                    try{
-                        const formData = new FormData()
-                        formData.append('pictureFilename', cover)
-                        formData.append('motorboat_id', response.data.id)
-                        const responseNew = 
-                            await api.patch('/motorboat/picture', formData, {
-                                headers: {
-                                    authorization: `Bearer ${token}`
-                                }
-                            });
-                        if (responseNew.data) {
-                            const formDataImgOne = new FormData()
-                            formDataImgOne.append('pictureFilename', imageOne)
-                            formDataImgOne.append('motorboat_id', response.data.id)
-                            await api.patch('/motorboat/pictures', formDataImgOne, {
-                                headers: {
-                                    authorization: `Bearer ${token}`
-                                }
-                            });
-                            if (imageTwo) {
-                                const formDataImgTwo = new FormData()
-                                formDataImgTwo.append('pictureFilename', imageTwo)
-                                formDataImgTwo.append('motorboat_id', response.data.id)
-                                await api.patch('/motorboat/pictures', formDataImgTwo, {
-                                    headers: {
-                                        authorization: `Bearer ${token}`
-                                    }
-                                });
-                            }
-                            if (imageThree) {
-                                const formDataImgThree = new FormData()
-                                formDataImgThree.append('pictureFilename', imageThree)
-                                formDataImgThree.append('motorboat_id', response.data.id)
-                                await api.patch('/motorboat/pictures', formDataImgThree, {
-                                    headers: {
-                                        authorization: `Bearer ${token}`
-                                    }
-                                });
-                            }
-                            if (imageFour) {
-                                const formDataImgFour = new FormData()
-                                formDataImgFour.append('pictureFilename', imageFour)
-                                formDataImgFour.append('motorboat_id', response.data.id)
-                                await api.patch('/motorboat/pictures', formDataImgFour, {
-                                    headers: {
-                                        authorization: `Bearer ${token}`
-                                    }
-                                });
-                            }
-                            if (imageFive) {
-                                const formDataImgFive = new FormData()
-                                formDataImgFive.append('pictureFilename', imageFive)
-                                formDataImgFive.append('motorboat_id', response.data.id)
-                                await api.patch('/motorboat/pictures', formDataImgFive, {
-                                    headers: {
-                                        authorization: `Bearer ${token}`
-                                    }
-                                });
-                            }
-                            addToast({
-                                type: "success",
-                                title: "Item adicionado",
-                                description:
-                                    "Item adicionado com sucesso!",
-                            });
-                        }
-                    } catch (err) {
-                        // pending: delete idtem
-                        setLoading(false)
-                        console.log(err)
+                if (!id) {
+                    if (!cover || !imageOne) {
+                        addToast({
+                            type: "error",
+                            title: "Selecione uma foto para cover e uma para detalhes",
+                            description:
+                                "Ocorreu um erro, pois o cover é obrigatório",
+                        });
+                        return;
                     }
+                    const schema = Yup.object().shape({
+                        description: Yup.string()
+                            .required("Digite a descrição"),
+                        price: Yup.number().required("Digite um preço"),
+                    });
+                    await schema.validate(data, {
+                        abortEarly: false,
+                    });
+                    setLoading(true);
+                    
+                    const response = 
+                        await api.post('/motorboat', { ...data }, {
+                            headers: {
+                                authorization: `Bearer ${token}`
+                            }
+                        });
+                    if (response.data) {
+                        try{
+                            const formData = new FormData()
+                            formData.append('pictureFilename', cover)
+                            formData.append('motorboat_id', response.data.id)
+                            const responseNew = 
+                                await api.patch('/motorboat/picture', formData, {
+                                    headers: {
+                                        authorization: `Bearer ${token}`
+                                    }
+                                });
+                            if (responseNew.data) {
+                                const formDataImgOne = new FormData()
+                                formDataImgOne.append('pictureFilename', imageOne)
+                                formDataImgOne.append('motorboat_id', response.data.id)
+                                await api.patch('/motorboat/pictures', formDataImgOne, {
+                                    headers: {
+                                        authorization: `Bearer ${token}`
+                                    }
+                                });
+                                if (imageTwo) {
+                                    const formDataImgTwo = new FormData()
+                                    formDataImgTwo.append('pictureFilename', imageTwo)
+                                    formDataImgTwo.append('motorboat_id', response.data.id)
+                                    await api.patch('/motorboat/pictures', formDataImgTwo, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                }
+                                if (imageThree) {
+                                    const formDataImgThree = new FormData()
+                                    formDataImgThree.append('pictureFilename', imageThree)
+                                    formDataImgThree.append('motorboat_id', response.data.id)
+                                    await api.patch('/motorboat/pictures', formDataImgThree, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                }
+                                if (imageFour) {
+                                    const formDataImgFour = new FormData()
+                                    formDataImgFour.append('pictureFilename', imageFour)
+                                    formDataImgFour.append('motorboat_id', response.data.id)
+                                    await api.patch('/motorboat/pictures', formDataImgFour, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                }
+                                if (imageFive) {
+                                    const formDataImgFive = new FormData()
+                                    formDataImgFive.append('pictureFilename', imageFive)
+                                    formDataImgFive.append('motorboat_id', response.data.id)
+                                    await api.patch('/motorboat/pictures', formDataImgFive, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                }
+                                addToast({
+                                    type: "success",
+                                    title: "Item adicionado",
+                                    description:
+                                        "Item adicionado com sucesso!",
+                                });
+                            }
+                        
+                        } catch (err) {
+                            // pending: delete idtem
+                            setLoading(false)
+                            console.log(err)
+                        }
+                    }
+                    setCover(null)
+                    setImageOne(null)
+                    setImageTwo(null)
+                    setImageThree(null)
+                    setImageFour(null)
+                    setImageFive(null)
+                    setLoading(false)
                 }
-                setCover(null)
-                setImageOne(null)
-                setImageTwo(null)
-                setImageThree(null)
-                setImageFour(null)
-                setImageFive(null)
-                setLoading(false)
             } catch (err) {
                 setLoading(false)
                 if (err instanceof Yup.ValidationError) {
@@ -215,7 +218,7 @@ const CreateItem: React.FC = () => {
                 });
             }
         },
-        [addToast, history, cover, token, imageOne, imageTwo, imageThree, imageFour, imageFive],
+        [addToast, cover, token, imageOne, imageTwo, imageThree, imageFour, imageFive, id],
     );
 
     useEffect(() => {

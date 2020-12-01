@@ -7,8 +7,6 @@ import { AiOutlineDelete } from "react-icons/ai";
 import { FiPower } from 'react-icons/fi';
 import 'react-day-picker/lib/style.css';
 // import { Form } from "@unform/web";
-import { FormHandles } from "@unform/core";
-import * as Yup from "yup";
 
 import { 
     Container, 
@@ -24,21 +22,7 @@ import api from '../../services/api';
 
 import { useAuth } from "../../hooks/Auth";
 import { useToast } from "../../hooks/Toast";
-import getValidationErros from "../../utils/getValidationErros";
 import icons from "../../utils/icons";
-
-interface ICreateItem {
-    description: string;
-    price: number;
-    capacity: string;
-    kitchen: string;
-    bathroom: string;
-    masterBedroom: string;
-    guestRoom: string;
-    eletric: string;
-    details: string;
-    recreation: string;
-}
 
 const columns = [
     {
@@ -76,14 +60,14 @@ const CreateItem: React.FC = () => {
     const history = useHistory();
 
     const { signOut, user, token } = useAuth();
-    const { addToast } = useToast();
+    // const { addToast } = useToast();
 
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const [itens, setItens] = useState([]);
 
     useEffect(() => {
         async function getItens() {
-            setLoading(true);
+            // setLoading(true);
             const response = await api.get("/motorboat", {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -92,8 +76,8 @@ const CreateItem: React.FC = () => {
             setItens(response.data);
         }
         getItens();
-        setLoading(false);
-    }, [api]);
+        // setLoading(false);
+    }, [api, token]);
 
     return (
         <Container>
