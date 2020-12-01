@@ -47,8 +47,18 @@ export const HeaderContent = styled.div`
 
 export const Content = styled.div`
     max-width: 1120px;
-    margin: 64px auto;
+    margin: 0 auto 64px auto;
     display: flex;
+`
+
+export const Menu = styled.div`
+    max-width: 1120px;
+    margin: 32px auto 32px auto;
+    display: flex;
+
+    a {
+        margin-right: 16px;
+    }
 `
 
 export const Schedule = styled.div`

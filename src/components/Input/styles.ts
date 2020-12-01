@@ -14,6 +14,9 @@ export const Container = styled.div<ContainerProps>`
     border: solid 2px #2a4175;
     border-radius: 10px;
     color: #232129;
+    max-height: 50px;
+    flex: 1;
+    margin: 4px;
 
     display: flex;
     align-items: center;
@@ -53,8 +56,7 @@ export const Container = styled.div<ContainerProps>`
         }
     }
 
-    & + div {
-        margin-top: 8px;
+    div {
     }
 `;
 

@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 
+import 'react-day-picker/lib/style.css';
 import { FiClock, FiPower } from 'react-icons/fi';
 import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom'
+
 
 import { 
     Container, 
@@ -21,7 +23,8 @@ import {
     SectionButtons,
     SectionTexts,
     ButtonConfirm,
-    TextCancel
+    TextCancel,
+    Menu
 } from './styles'
 
 import logoImg from '../../assets/logo.png'
@@ -159,6 +162,10 @@ const Dashboard: React.FC = () => {
                     </button>
                 </HeaderContent>
             </Header>
+            <Menu>
+                <Link to="/dashboard/item/createItem">Novo item para aluguel</Link>
+                <Link to="/dashboard/item">Listar itens para aluguel</Link>
+            </Menu>
             <Content>
                 <Schedule>
                     <h1>Horários agendados</h1>
