@@ -5,6 +5,7 @@ import Route from "./Route";
 
 import SignIn from "../pages/Signin";
 import SignUp from "../pages/Signup";
+import Suport from "../pages/Suport";
 import Forgot from "../pages/Forgot";
 import Dashboard from "../pages/Dashboard";
 import CreateItem from "../pages/Item/CreateItem";
@@ -15,6 +16,7 @@ const Routes: React.FC = () => {
         <Switch>
             <Route path="/" exact component={SignIn} />
             <Route path="/signup" component={SignUp} />
+            <Route path="/suport" component={Suport} />
             <Route path="/forgot" component={Forgot} />
             <Route path="/dashboard" exact component={Dashboard} isPrivate />
             <Route path="/dashboard/item" exact component={Item} isPrivate />
