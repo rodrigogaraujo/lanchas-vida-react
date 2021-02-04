@@ -16,7 +16,7 @@ const SignUp: React.FC = () => {
                     <img src={logo} alt="LanchasVida" title="LanchasVida" />
                     <h1>Contatos:</h1>
 
-                    <h2>contato@lanchasvida.com.br</h2>
+                    <p>O Contrato aceito no aplicativo constite o acordo integral e plenamente vinculante entre a LANCHAS VIDA e o LOCATÓRIO, sendo o único documento a reger sua relação contratual, substituindo todos e quaisquer acordos e entendimentos, verbais ou escritos, mantidos anteriormente entre os mesmos.</p>
                     <Link to="/">
                         <FiArrowLeft size={20} />
                         Voltar para o logon
