@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
 
 import { Container, Content, Background, ContentAnimation } from "./styles";
-import Button from "../../components/Button";
 
 import logo from "../../assets/logo.png";
 
