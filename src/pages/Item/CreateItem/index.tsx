@@ -219,18 +219,18 @@ const CreateItem: React.FC = (props) => {
                                 authorization: `Bearer ${token}`
                             }
                         });
+                    setMotorboat(response.data)
                     if (response.data) {
                         try{
                             if(cover){
                                 const formData = new FormData()
                                 formData.append('pictureFilename', cover)
                                 formData.append('motorboat_id', response.data.id)
-                                const responseNew = 
-                                    await api.patch('/motorboat/picture', formData, {
-                                        headers: {
-                                            authorization: `Bearer ${token}`
-                                        }
-                                    });
+                                await api.patch('/motorboat/picture', formData, {
+                                    headers: {
+                                        authorization: `Bearer ${token}`
+                                    }
+                                });
                             }
                             if (response.data) {
                                 if (imageOne) {
