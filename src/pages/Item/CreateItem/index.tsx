@@ -41,7 +41,7 @@ interface ICreateItem {
     recreation: string;
 }
 
-const CreateItem: React.FC = () => {
+const CreateItem: React.FC = (props) => {
     const formRef = useRef<FormHandles>(null);
     const history = useHistory();
     const [cover, setCover] = useState<any>();
@@ -52,7 +52,7 @@ const CreateItem: React.FC = () => {
     const [imageFive, setImageFive] = useState<any>();
     const [loading, setLoading] = useState(false);
     const [id, setId] = useState('');
-
+    const [motorboat, setMotorboat] = useState<any>()
     const { signOut, user, token } = useAuth();
     const { addToast } = useToast();
 
@@ -202,6 +202,108 @@ const CreateItem: React.FC = () => {
                     setImageFour(null)
                     setImageFive(null)
                     setLoading(false)
+                } else if (id) {
+                    const schema = Yup.object().shape({
+                        description: Yup.string()
+                            .required("Digite a descrição"),
+                        price: Yup.number().required("Digite um preço"),
+                    });
+                    await schema.validate(data, {
+                        abortEarly: false,
+                    });
+                    setLoading(true);
+                    
+                    const response = 
+                        await api.put('/motorboat/update', { ...data, motoboart_id: id }, {
+                            headers: {
+                                authorization: `Bearer ${token}`
+                            }
+                        });
+                    if (response.data) {
+                        try{
+                            if(cover){
+                                const formData = new FormData()
+                                formData.append('pictureFilename', cover)
+                                formData.append('motorboat_id', response.data.id)
+                                const responseNew = 
+                                    await api.patch('/motorboat/picture', formData, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                            }
+                            if (response.data) {
+                                if (imageOne) {
+                                    const formDataImgOne = new FormData()
+                                    formDataImgOne.append('pictureFilename', imageOne)
+                                    formDataImgOne.append('motorboat_id', response.data.id)
+                                    await api.patch('/motorboat/pictures', formDataImgOne, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                }
+                                if (imageTwo) {
+                                    const formDataImgTwo = new FormData()
+                                    formDataImgTwo.append('pictureFilename', imageTwo)
+                                    formDataImgTwo.append('motorboat_id', response.data.id)
+                                    await api.patch('/motorboat/pictures', formDataImgTwo, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                }
+                                if (imageThree) {
+                                    const formDataImgThree = new FormData()
+                                    formDataImgThree.append('pictureFilename', imageThree)
+                                    formDataImgThree.append('motorboat_id', response.data.id)
+                                    await api.patch('/motorboat/pictures', formDataImgThree, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                }
+                                if (imageFour) {
+                                    const formDataImgFour = new FormData()
+                                    formDataImgFour.append('pictureFilename', imageFour)
+                                    formDataImgFour.append('motorboat_id', response.data.id)
+                                    await api.patch('/motorboat/pictures', formDataImgFour, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                }
+                                if (imageFive) {
+                                    const formDataImgFive = new FormData()
+                                    formDataImgFive.append('pictureFilename', imageFive)
+                                    formDataImgFive.append('motorboat_id', response.data.id)
+                                    await api.patch('/motorboat/pictures', formDataImgFive, {
+                                        headers: {
+                                            authorization: `Bearer ${token}`
+                                        }
+                                    });
+                                }
+                                addToast({
+                                    type: "success",
+                                    title: "Item adicionado",
+                                    description:
+                                        "Item adicionado com sucesso!",
+                                });
+                            }
+                        
+                        } catch (err) {
+                            // pending: delete idtem
+                            setLoading(false)
+                            console.log(err)
+                        }
+                    }
+                    setCover(null)
+                    setImageOne(null)
+                    setImageTwo(null)
+                    setImageThree(null)
+                    setImageFour(null)
+                    setImageFive(null)
+                    setLoading(false)
                 }
             } catch (err) {
                 setLoading(false)
@@ -227,6 +329,20 @@ const CreateItem: React.FC = () => {
         }
     }, [history])
 
+    useEffect(() => {
+        async function getData() {
+            if (id) {
+                const resp = await api.get(`/motorboat/id?motoboart_id=${id}`, {
+                    headers: {
+                        authorization: `Bearer ${token}`
+                    }
+                });
+                setMotorboat(resp.data)
+            }
+        }
+        getData();
+    }, [id])
+
     return (
         <Container>
             <Header>
@@ -246,7 +362,7 @@ const CreateItem: React.FC = () => {
                     <>
                         <h1>Cadastre um novo item para aluguel</h1>
                         <h2>Itens com cadeado, separe a tag (detalhe) por uma vírgula. Ex: Pia, Chuveiro, Sanitário elétrico </h2>
-                        <StyledForm onSubmit={handleSubmit} ref={formRef}>
+                        <StyledForm onSubmit={handleSubmit} ref={formRef} initialData={motorboat}>
                             <Item>
                                 <Input 
                                     name="description" 
@@ -380,7 +496,7 @@ const CreateItem: React.FC = () => {
                                     </Cover>
                                 </Item>
                             </ItemImages>
-                            <Button type="submit">Cadastrar</Button>
+                            <Button type="submit">{motorboat ? 'Salvar' : 'Cadastrar'}</Button>
                             <Link 
                                 to="/dashboard/item">
                                 Cancelar
