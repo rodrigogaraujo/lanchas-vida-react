@@ -341,7 +341,7 @@ const CreateItem: React.FC = (props) => {
             }
         }
         getData();
-    }, [id])
+    }, [id, token])
 
     return (
         <Container>

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React, { useCallback, useEffect, useState } from "react";
 
 import 'react-day-picker/lib/style.css';
@@ -5,7 +6,7 @@ import { FiClock, FiPower } from 'react-icons/fi';
 import DayPicker from 'react-day-picker';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom'
-
+import Select from 'react-select'
 
 import { 
     Container, 
@@ -15,15 +16,9 @@ import {
     Content,
     Schedule,
     Calendar,
-    NextAppointment,
     Section,
     Appointment,
     ConfirmAppointment,
-    ButtonCancel,
-    SectionButtons,
-    SectionTexts,
-    ButtonConfirm,
-    TextCancel,
     Menu
 } from './styles'
 
@@ -48,8 +43,9 @@ interface AppointmentResponse {
 
 const Dashboard: React.FC = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [appointmentInDate, setAppointmentInDate] = useState<AppointmentResponse>({} as AppointmentResponse);
     const [allAppointments, setAllAppointments] = useState<AppointmentResponse[]>([]);
+    const [motorboats, setMotorboats] = useState<any[]>([]);
+    const [selected, setSelected] = useState();
 
     const { signOut, user, token } = useAuth();
     const { addToast } = useToast();
@@ -58,78 +54,71 @@ const Dashboard: React.FC = () => {
         setSelectedDate(day)
     }, []);
 
-    const handleCancel = useCallback(async () => {
+    const handleUnavailable = useCallback(async() => {
         try {
-            const response = 
-                await api.put(`/appointments/cancel`, {
-                    appointment_id: appointmentInDate.id
-                } ,{
+            if (selected) {
+                await api.post(`/appointments`, {
+                    motorboat_id: selected && selected.value ? selected.value : '',
+                    user_id: null,
+                    date: selectedDate,
+                    is_confirmed: true,
+                    price: 0,
+                    is_changed: false,
+                    is_canceled: false,
+                    time: ''
+                },{
                     headers: {
                         authorization: `Bearer ${token}`
                     }
                 });
-            setAppointmentInDate(response.data);
-            addToast({
-                type: "success",
-                title: "Cancelado com sucesso",
-                description:
-                    "Aluguel cancelado com sucesso! Realize o estorno no painel do mercado pago.",
-            });
-        } catch (err) {
-            addToast({
-                type: "error",
-                title: "Erro no cancelamento",
-                description:
-                    "Ocorreu um erro ao fazer o cancelamento, tente novamente mais tarde.",
-            });
-        }
-    }, [appointmentInDate, token, addToast])
-
-    const handleConfirm = useCallback(async () => {
-        try {
-            const response = 
-                await api.put(`/appointments/confirm`, {
-                    appointment_id: appointmentInDate.id
-                } ,{
-                    headers: {
-                        authorization: `Bearer ${token}`
-                    }
+                addToast({
+                    type: "success",
+                    title: "Confirmado com sucesso",
+                    description:
+                        "Aluguel confirmado com sucesso!",
                 });
-            setAppointmentInDate(response.data);
-            addToast({
-                type: "success",
-                title: "Confirmado com sucesso",
-                description:
-                    "Aluguel confirmado com sucesso!",
-            });
+            } else {
+                addToast({
+                    type: "error",
+                    title: "Erro",
+                    description:
+                        "Selecione uma lancha.",
+                });
+            }
         } catch (err) {
             addToast({
                 type: "error",
-                title: "Erro na confirmação",
+                title: "Erro",
                 description:
-                    "Ocorreu um erro ao fazer a confirmação, tente novamente mais tarde.",
+                    "Houve um erro, tente novamente.",
             });
         }
-    }, [appointmentInDate, token, addToast])
+    }, [selected, addToast, selectedDate, token])
 
     useEffect(() => {
-        async function getAppointmentByDate() {
+        async function getMotorboats() {
             try {
                 const response = 
-                    await api.get(`/appointments/appointment-date?date=${
-                        format(selectedDate, 'yyyy-MM-dd HH:mm:ss')
-                    }`, {
-                        headers: {
-                            authorization: `Bearer ${token}`
+                    await api.get(`/motorboat`);
+                setMotorboats(response.data);
+                
+                if (response && response.data && response.data.length) {
+                    let motorArr: any[] = []
+                    response.data.map((motor: any) => {
+                        const objMotor = {
+                            value: motor.id,
+                            label: motor.description
                         }
-                    });
-                    setAppointmentInDate(response.data);
+                        motorArr.push(objMotor)
+                    })
+                    setMotorboats(motorArr)
+                }
             } catch (err) {
                 console.log(err)
             }
         }
-        getAppointmentByDate();
-    }, [selectedDate, token])
+        getMotorboats();
+    }, [])
 
     useEffect(() => {
         async function getAppointments() {
@@ -148,6 +137,10 @@ const Dashboard: React.FC = () => {
         getAppointments();
     }, [token])
 
+    const handleSelectedItens = useCallback(e => {
+        setSelected(e);
+    }, []);
+
     return (
         <Container>
             <Header>
@@ -163,59 +156,20 @@ const Dashboard: React.FC = () => {
                 </HeaderContent>
             </Header>
             <Menu>
+                <Link to="/dashboard">Voltar</Link>
                 <Link to="/dashboard/item/createItem">Novo item para aluguel</Link>
                 <Link to="/dashboard/item">Listar itens para aluguel</Link>
-                <Link to="/dashboard/unavailable">Marcar data como não disponível</Link>
             </Menu>
             <Content>
                 <Schedule>
-                    <h1>Horários agendados</h1>
-
-                    <NextAppointment>
-                        <strong>
-                            Data selecionada - {format(selectedDate, 'dd/MM/yyyy')}
-                        </strong>
-                        {appointmentInDate && (
-                            <div>
-                                {
-                                    appointmentInDate.user && appointmentInDate.user.avatar && (
-                                        <img src={`https://nodedeploy.lanchasvida.net/files/${appointmentInDate.user.avatar}`}
-                                         alt={appointmentInDate.user ? appointmentInDate.user.name : ''} />
-                                    )
-                                }
-                                <SectionTexts>
-                                    <strong>
-                                        {appointmentInDate.user ? appointmentInDate.user.name : 'Dia indisponível'}
-                                    </strong>
-                                    {appointmentInDate.is_canceled 
-                                        ? (<TextCancel>Cancelado</TextCancel>)
-                                        : (
-                                            <section>
-                                                <ConfirmAppointment isConfirmed={appointmentInDate.is_confirmed}>
-                                                    {appointmentInDate.is_confirmed 
-                                                        ? 'Confirmado'
-                                                        : 'Aguardando'
-                                                    }
-                                                </ConfirmAppointment>
-                                            </section>
-                                        )
-                                    }
-                                </SectionTexts>
-                                {!appointmentInDate.is_canceled && (
-                                    <SectionButtons>
-                                        <ButtonCancel type="button" onClick={handleCancel}>Cancelar</ButtonCancel>
-                                        {!appointmentInDate.is_confirmed && (
-                                            <ButtonConfirm type="button" onClick={handleConfirm}>Confirmar</ButtonConfirm>
-                                        )}
-                                    </SectionButtons>
-                                )}
-                                <span>
-                                    <FiClock /> 
-                                    {format(selectedDate, 'dd/MM/yyyy')} - {appointmentInDate.time}</span>
-                            </div>
-                        )}
-                    </NextAppointment>
-
+                    <Select 
+                        options={motorboats} 
+                        value={selected} 
+                        onChange={handleSelectedItens} />
+                    <strong>
+                        Data selecionada - {format(selectedDate, 'dd/MM/yyyy')}
+                    </strong>
+                    <button type="button" onClick={handleUnavailable}>Marcar data como livre</button>
                     <Section>
                         <strong>Todos os agendamentos</strong>
                         {allAppointments && allAppointments.length ? allAppointments.map(appointment => (

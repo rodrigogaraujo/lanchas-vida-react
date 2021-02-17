@@ -9,6 +9,7 @@ import Suport from "../pages/Suport";
 import Politicy from "../pages/Politicy";
 import Forgot from "../pages/Forgot";
 import Dashboard from "../pages/Dashboard";
+import Unavailable from "../pages/Unavailable";
 import CreateItem from "../pages/Item/CreateItem";
 import Item from "../pages/Item";
 
@@ -22,6 +23,7 @@ const Routes: React.FC = () => {
             <Route path="/forgot" component={Forgot} />
             <Route path="/dashboard" exact component={Dashboard} isPrivate />
             <Route path="/dashboard/item" exact component={Item} isPrivate />
+            <Route path="/dashboard/unavailable" exact component={Unavailable} isPrivate />
             <Route path="/dashboard/item/edit/:id" component={CreateItem} isPrivate />
             <Route path="/dashboard/item/createItem" component={CreateItem} isPrivate />
         </Switch>
