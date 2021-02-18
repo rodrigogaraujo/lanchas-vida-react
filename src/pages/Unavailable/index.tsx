@@ -169,7 +169,7 @@ const Dashboard: React.FC = () => {
                     <strong>
                         Data selecionada - {format(selectedDate, 'dd/MM/yyyy')}
                     </strong>
-                    <button type="button" onClick={handleUnavailable}>Marcar data como livre</button>
+                    <button type="button" onClick={handleUnavailable}>Marcar data como indisponível</button>
                     <Section>
                         <strong>Todos os agendamentos</strong>
                         {allAppointments && allAppointments.length ? allAppointments.map(appointment => (
