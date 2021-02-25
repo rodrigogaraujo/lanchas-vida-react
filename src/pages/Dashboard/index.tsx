@@ -166,6 +166,7 @@ const Dashboard: React.FC = () => {
                 <Link to="/dashboard/item/createItem">Novo item para aluguel</Link>
                 <Link to="/dashboard/item">Listar itens para aluguel</Link>
                 <Link to="/dashboard/unavailable">Marcar data como não disponível</Link>
+                <Link to="/dashboard/appointments">Agendamentos</Link>
             </Menu>
             <Content>
                 <Schedule>

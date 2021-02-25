@@ -12,6 +12,7 @@ import Dashboard from "../pages/Dashboard";
 import Unavailable from "../pages/Unavailable";
 import CreateItem from "../pages/Item/CreateItem";
 import Item from "../pages/Item";
+import Appointments from "../pages/Appointments";
 
 const Routes: React.FC = () => {
     return (
@@ -26,6 +27,7 @@ const Routes: React.FC = () => {
             <Route path="/dashboard/unavailable" exact component={Unavailable} isPrivate />
             <Route path="/dashboard/item/edit/:id" component={CreateItem} isPrivate />
             <Route path="/dashboard/item/createItem" component={CreateItem} isPrivate />
+            <Route path="/dashboard/appointments" component={Appointments} isPrivate />
         </Switch>
     );
 };
