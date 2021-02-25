@@ -32,11 +32,16 @@ interface User {
     avatar: string;
 }
 
+interface Motorboat {
+    description: string;
+}
+
 interface AppointmentResponse {
     id: string; 
     date: string;
     user: User;
     time: string;
+    motorboat: Motorboat;
     is_confirmed: boolean;
     is_canceled: boolean;
 }
@@ -136,7 +141,10 @@ const Dashboard: React.FC = () => {
                                             <img src={`https://nodedeploy.lanchasvida.net/${appointment.user.avatar}`}
                                             alt={appointment.user.name} />
                                         )}
-                                        <strong>{appointment.user ? appointment.user.name : 'Dia indisponível'}</strong>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <strong>{appointment.user ? `${appointment.user.name}` : 'Dia indisponível'}</strong>
+                                            <strong>{appointment && appointment.motorboat ? appointment.motorboat.description : ''}</strong>
+                                        </div>
                                         <ConfirmAppointment isConfirmed={appointment.is_confirmed}>
                                             {appointment.is_confirmed 
                                                 ? 'Confirmado'
@@ -163,7 +171,10 @@ const Dashboard: React.FC = () => {
                                             <img src={`https://nodedeploy.lanchasvida.net/${appointment.user.avatar}`}
                                             alt={appointment.user.name} />
                                         )}
-                                        <strong>{appointment.user ? appointment.user.name : 'Dia indisponível'}</strong>
+                                        <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                            <strong>{appointment.user ? `${appointment.user.name}` : 'Dia indisponível'}</strong>
+                                            <strong>{appointment && appointment.motorboat ? appointment.motorboat.description : ''}</strong>
+                                        </div>
                                         <ConfirmAppointment isConfirmed={appointment.is_confirmed}>
                                             {appointment.is_confirmed 
                                                 ? 'Confirmado'

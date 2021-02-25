@@ -37,12 +37,17 @@ interface User {
     avatar: string;
 }
 
+interface Motorboat {
+    description: string;
+}
+
 interface AppointmentResponse {
     id: string; 
     date: string;
     user: User;
     time: string;
     is_confirmed: boolean;
+    motorboat: Motorboat;
     is_canceled: boolean;
 }
 
@@ -185,9 +190,13 @@ const Dashboard: React.FC = () => {
                                     )
                                 }
                                 <SectionTexts>
-                                    <strong>
+                                    {/* <strong>
                                         {appointmentInDate.user ? appointmentInDate.user.name : 'Dia indisponível'}
-                                    </strong>
+                                    </strong> */}
+                                    <p style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <strong>{appointmentInDate.user ? `${appointmentInDate.user.name}` : 'Dia indisponível'}</strong>
+                                        <strong>{appointmentInDate && appointmentInDate.motorboat ? appointmentInDate.motorboat.description : ''}</strong>
+                                    </p>
                                     {appointmentInDate.is_canceled 
                                         ? (<TextCancel>Cancelado</TextCancel>)
                                         : (
