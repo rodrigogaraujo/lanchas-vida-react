@@ -212,7 +212,6 @@ const CreateItem: React.FC = (props) => {
                         abortEarly: false,
                     });
                     setLoading(true);
-                    
                     const response = 
                         await api.put('/motorboat/update', { ...data, motoboart_id: id }, {
                             headers: {
@@ -285,9 +284,9 @@ const CreateItem: React.FC = (props) => {
                                 }
                                 addToast({
                                     type: "success",
-                                    title: "Item adicionado",
+                                    title: "Item salvo",
                                     description:
-                                        "Item adicionado com sucesso!",
+                                        "Item salvo com sucesso!",
                                 });
                             }
                         
