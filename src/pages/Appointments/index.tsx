@@ -20,7 +20,8 @@ import {
     Appointment,
     ConfirmAppointment,
     Row,
-    Menu
+    Menu,
+    RowCorrect
 } from './styles'
 
 import logoImg from '../../assets/logo.png'
@@ -30,6 +31,19 @@ import api from '../../services/api';
 interface User {
     name: string;
     avatar: string;
+    phone_number: string;
+    document: string;
+    email: string;
+    street: string;
+    postal_code: string;
+    city: string;
+    state: string;
+    nationality: string;
+    profession: string;
+    marital_status: string;
+    id_number: string;
+    id_expedition: string;
+    id_org: string;
 }
 
 interface Motorboat {
@@ -49,6 +63,7 @@ interface AppointmentResponse {
 const Dashboard: React.FC = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+    const [showUser, setShowUser] = useState(false);
     const [appointmentInDate, setAppointmentInDate] = useState<AppointmentResponse[]>([]);
     const [allAppointments, setAllAppointments] = useState<AppointmentResponse[]>([]);
 
@@ -142,7 +157,46 @@ const Dashboard: React.FC = () => {
                                             alt={appointment.user.name} />
                                         )}
                                         <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                            <strong>{appointment.user ? `${appointment.user.name}` : 'Dia indisponível'}</strong>
+                                            <strong>{appointment.user ? `Cliente: ${appointment.user.name}` : 'Dia indisponível'}</strong>
+                                            <button type="button" style={{
+                                                padding: 8,
+                                                border: 'none',
+                                                outline: 'none',
+                                                background: '#005687',
+                                                color: 'white',
+                                                borderRadius: 8,
+                                                margin: 8,
+                                                marginLeft: 24
+                                            }}
+                                            onClick={() => setShowUser(!showUser)}>{!showUser ? 'Informações do cliente' : 'Ocultar'}</button>
+                                            {appointment && appointment.user && showUser ? (
+                                                <>
+                                                    <RowCorrect>
+                                                        Telefone: <span>{appointment.user.phone_number}</span>
+                                                    </RowCorrect>
+                                                    <RowCorrect>
+                                                        Email: <span>{appointment.user.email}</span>
+                                                    </RowCorrect>
+                                                    <RowCorrect>
+                                                        Documento (CPF): <span>{appointment.user.document}</span>
+                                                    </RowCorrect>
+                                                    <RowCorrect>
+                                                        Documento (ID): <span>{appointment.user.id_number} - {appointment.user.id_org} - {appointment.user.id_expedition}</span>
+                                                    </RowCorrect>
+                                                    <RowCorrect>
+                                                        Endereço: <span>{appointment.user.street}</span>
+                                                    </RowCorrect>
+                                                    <RowCorrect>
+                                                        <span>{appointment.user.city} - {appointment.user.state} - {appointment.user.postal_code}</span>
+                                                    </RowCorrect>
+                                                    <RowCorrect>
+                                                        Nacionalidade: <span>{appointment.user.nationality}</span>
+                                                    </RowCorrect>
+                                                    <RowCorrect>
+                                                        Profissão: <span>{appointment.user.profession}</span>
+                                                    </RowCorrect>
+                                                </>
+                                            ) : null}
                                             <strong>{appointment && appointment.motorboat ? appointment.motorboat.description : ''}</strong>
                                         </div>
                                         <ConfirmAppointment isConfirmed={appointment.is_confirmed}>

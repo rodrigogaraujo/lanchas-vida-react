@@ -24,6 +24,19 @@ export const Row = styled.div`
     }
 `;
 
+export const RowCorrect = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+
+    span{
+        font-size: 22px;
+        padding-left: 9px;
+    }
+`;
+
 export const Profile = styled.div`
     display: flex;
     flex-direction: column;
